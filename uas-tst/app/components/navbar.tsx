@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Navbar = () => {
   return (
-    <header className="bg-base-100 text-white p-4">
+    <header className="bg-white text-white p-4">
       <div className="mx-auto flex justify-between items-center">
         <div className="text-xl font-bold">
           <Link href="/" className="hover:text-gray-400">
@@ -15,6 +15,10 @@ const Navbar = () => {
                 className="object-contain" // Optional: Ensures the logo maintains its aspect ratio
                 />
           </Link>
+        </div>
+        <div className="text-black text-xl flex flex-row gap-8">
+          <Link href="/" className="hover:text-accent">Home</Link>
+          <Link href="/documentation" className="hover:text-accent">Documentation</Link>
         </div>
         <div className="flex space-x-4">
           <Link href="/signin">

@@ -1,72 +1,41 @@
-// pages/api-docs.tsx
+import Link from "next/link";
+import Sidebar from "../components/sidebar";
+import Image from "next/image";
+
+import Overview from "./overview";
 
 const Documentation = () => {
     return (
-      <div className="max-w-7xl mx-auto p-8 bg-white text-gray-900">
-        <h1 className="text-4xl font-semibold mb-6">API Documentation</h1>
-  
-        <p className="text-lg mb-6">
-          Welcome to the API documentation for the Haircut Processing API. Below, you'll find all the details on how to interact with the endpoint for processing images to detect face shapes and predict haircut data.
-        </p>
-  
-        <div className="space-y-12">
-          {/* POST /haircut Endpoint */}
-          <section>
-            <h2 className="text-2xl font-semibold mb-2">POST /haircut</h2>
-            <p className="text-lg mb-4">
-              This endpoint processes an image and predicts the corresponding haircut data based on the face shape detected in the image. The image should be uploaded as a part of the request.
-            </p>
-            <h3 className="font-medium text-lg mb-2">Request</h3>
-            <p className="mb-4">
-              Send a POST request with an image file in the body of the request. The image must be included in the form data with the field name `image`.
-            </p>
-            <h4 className="font-medium text-lg mb-2">Request Body</h4>
-            <pre className="bg-gray-100 p-4 rounded-md">
-              {`POST /haircut
-  Content-Type: multipart/form-data
-  
-  {
-    "image": <image-file>
-  }`}
-            </pre>
-            <h3 className="font-medium text-lg mb-2">Response</h3>
-            <p className="mb-4">
-              The server will respond with a JSON object containing the processed image (base64-encoded) and the predicted haircut data.
-            </p>
-            <h4 className="font-medium text-lg mb-2">Response Body</h4>
-            <pre className="bg-gray-100 p-4 rounded-md">
-              {`{
-    "image": "<base64-encoded-image>",
-    "haircut_data": [
-      // Array of haircut data
-      {
-        "style": "short",
-        "recommended": true
-      },
-      ...
-    ]
-  }`}
-            </pre>
-          </section>
-  
-          {/* Error Responses */}
-          <section>
-            <h2 className="text-2xl font-semibold mb-2">Error Responses</h2>
-            <p className="text-lg mb-4">
-              The server may return the following error responses if the request is malformed or invalid.
-            </p>
-            <h3 className="font-medium text-lg mb-2">400 Bad Request</h3>
-            <p className="mb-4">
-              If no image file is provided, or if the image file has an empty filename, the server will return a `400 Bad Request` response with an error message.
-            </p>
-            <pre className="bg-gray-100 p-4 rounded-md">
-              {`{
-    "error": "No image file provided"
-  }`}
-            </pre>
-          </section>
+        <div className="flex flex-row">
+            <Sidebar/>
+            <div className="min-h-screen flex-1 bg-white text-black flex flex-col items-center">
+                <div className="mt-16 flex lg:flex-row flex-col items-center gap-8 mb-8">
+                    <div>
+                        <Image
+                            src="/si-om.png"
+                            width={450}
+                            height={50}
+                            alt="si om"/>
+                        <div className="text-xl text-white text-center font-extralight bg-primary p-4 rounded-xl border-4 border-accent">
+                            <h1 className="inline-block text-4xl mr-2">"LUAR BIASA!"</h1> 
+                            <h1 className="inline-block text-sm font-extralight italic">- om juhardi</h1>
+                        </div>
+                    </div>
+                    <div className="min-h-full pt-16 px-2 flex flex-col gap-8">
+                        <div>
+                            <h1 className="text-xl text-black font-bold">Learn more about</h1>
+                            <h1 className="text-8xl text-accent font-bold">TRICH API</h1>
+                        </div>
+                        <div className="flex flex-col ml-4 gap-1">
+                            <Link href="" className="text-primary hover:text-accent text-xl underline font-bold">Overview &rarr;</Link>
+                            <Link href="" className="text-primary hover:text-accent text-xl underline font-bold">Get Started &rarr;</Link>
+                            <Link href="" className="text-primary hover:text-accent text-xl underline font-bold">REST APIs &rarr;</Link>
+                        </div>
+                    </div>
+                </div>
+                <Overview/>
+            </div>
         </div>
-      </div>
     );
   };
   
