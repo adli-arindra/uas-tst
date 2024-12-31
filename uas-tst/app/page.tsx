@@ -1,5 +1,6 @@
 "use client"
 import { useRef, useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation'; // Import usePathname
 import PhotoPopup from '@/app/components/popup'; // Import the PhotoPopup component
 
 const Camera = () => {
@@ -8,6 +9,8 @@ const Camera = () => {
   const [showPopup, setShowPopup] = useState(false); // State to control showing the popup
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null); // Store the stream reference
+  const pathname = usePathname(); // Get the current route
 
   useEffect(() => {
     const startCamera = async () => {
@@ -18,23 +21,25 @@ const Camera = () => {
           videoRef.current.play();
           setIsCameraReady(true);
         }
-        console.log(stream)
+        streamRef.current = stream; // Save the stream reference
       } catch (error) {
         console.error('Error accessing camera:', error);
       }
     };
 
-    startCamera();
+    // Only start the camera if on the homepage
+    if (pathname === '/') {
+      startCamera();
+    }
 
-    // Cleanup camera stream on unmount
+    // Cleanup camera stream on unmount or route change
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
       }
     };
-  }, []);
+  }, [pathname]); // Re-run effect when pathname changes
 
   const takePhoto = () => {
     if (canvasRef.current && videoRef.current) {
@@ -49,7 +54,7 @@ const Camera = () => {
 
         // Draw the flipped video frame onto the canvas
         ctx.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-        
+
         const photoUrl = canvasRef.current.toDataURL('image/png');
         setImage(photoUrl); // Set the captured image to state
         setShowPopup(true); // Show the popup with the captured image
@@ -62,7 +67,7 @@ const Camera = () => {
   };
 
   return (
-  <div className="max-w-3xl mx-auto p-4 min-w-full 
+    <div className="max-w-3xl mx-auto p-4 min-w-full 
       bg-gradient-to-b from-white via-white to-secondary h-screen
       flex justify-center items-center flex-col">
       <h1 className="text-black font-bold text-xl mb-2">Take a photo</h1>
