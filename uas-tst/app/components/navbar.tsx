@@ -52,7 +52,7 @@ const Navbar = () => {
   const [signedIn, setSignedIn] = useState<boolean>(false);
   const [showPopUp, setShowPopUp] = useState(false);
   const [token, setToken] = useState("");
-  const value = onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user);
     }
