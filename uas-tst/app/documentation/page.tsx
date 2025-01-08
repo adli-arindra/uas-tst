@@ -10,10 +10,9 @@ const Documentation = () => {
     const scrollToSection = (target: string) => {
         const section = document.getElementById(target);
         if (section) {
-          section.scrollIntoView({ behavior: 'smooth' });
+            section.scrollIntoView({ behavior: 'smooth' });
         }
-      };
-
+    };
     return (
         <div className="flex flex-row ml-64">
             <Sidebar/>

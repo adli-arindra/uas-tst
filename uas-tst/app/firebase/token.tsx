@@ -1,4 +1,4 @@
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where } from "firebase/firestore";
 import { app } from "./config";
 
 const db = getFirestore(app); // Initialize Firestore
@@ -32,4 +32,14 @@ const getTokenByEmail = async (email: string): Promise<string> => {
   }
 };
 
-export { getTokenByEmail };
+const validateToken = async (token: string): Promise<boolean> => {
+  const tokensCollection = collection(db, "tokens");
+
+  const q = query(tokensCollection, where("token", "==", token));
+
+  const querySnapshot = await getDocs(q);
+
+  // If at least one document exists, the token is valid
+  return !querySnapshot.empty;
+};
+export { getTokenByEmail, validateToken };
