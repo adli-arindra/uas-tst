@@ -12,6 +12,9 @@ const Camera = () => {
   const streamRef = useRef<MediaStream | null>(null); // Store the stream reference
   const pathname = usePathname(); // Get the current route
 
+  console.log(process.env.NEXT_PUBLIC_TOKEN);
+  console.log(process.env.NEXT_PUBLIC_ENDPOINT);
+
   useEffect(() => {
     const startCamera = async () => {
       try {
