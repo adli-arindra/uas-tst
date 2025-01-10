@@ -54,13 +54,13 @@ const Sidebar = () => {
               {isDropdownOpen && (
                 <ul className="mt-2 pl-8 space-y-2">
                   <li>
-                    <Link href="/api-docs#haircut" className="block px-4 py-2 hover:bg-secondary">
-                      Haircut Endpoint
+                    <Link href="#restapi" className="block px-4 py-2 hover:bg-secondary">
+                      GET TOKEN
                     </Link>
                   </li>
                   <li>
-                    <Link href="/api-docs#error-responses" className="block px-4 py-2 hover:bg-secondary">
-                      Error Responses
+                    <Link href="#restapi" className="block px-4 py-2 hover:bg-secondary">
+                      POST PREDICT
                     </Link>
                   </li>
                 </ul>
