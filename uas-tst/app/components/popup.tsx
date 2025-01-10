@@ -73,7 +73,7 @@ const PhotoPopup: React.FC<PhotoPopupProps> = ({ image, onClose }) => {
         </>
         }
       </div>
-        { product &&
+        { (product && !loading) &&
           <ProductCard product={product as Product}/>
         }
     </div>
