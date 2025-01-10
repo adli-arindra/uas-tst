@@ -1,6 +1,8 @@
 "use client"
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import { Product } from '@/pages/api/product';
+import ProductCard from './product-card';
 
 interface PhotoPopupProps {
   image: string;
@@ -12,6 +14,7 @@ const PhotoPopup: React.FC<PhotoPopupProps> = ({ image, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [imagePath, setImagePath] = useState(image);
   const [headShape, setHeadShape] = useState("None");
+  const [product, setProduct] = useState<Product | undefined>(undefined);
 
   const onStart = async () => {
     const data = await fetch("/api/predict", {
@@ -26,7 +29,15 @@ const PhotoPopup: React.FC<PhotoPopupProps> = ({ image, onClose }) => {
     const result = await data.json();
     setHasil(result);
   }
+
+  const getProduct = async () => {
+    const data = await fetch("/api/product");
+    const result = await data.json();
+    setProduct(result);
+  }
+
   useEffect(() => {onStart();}, []);
+  useEffect(() => {getProduct();}, []);
   useEffect(() => {
     if (hasil) {
       setLoading(false);
@@ -37,7 +48,7 @@ const PhotoPopup: React.FC<PhotoPopupProps> = ({ image, onClose }) => {
   }, [hasil]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 gap-2">
       <div className="bg-white p-4 rounded-lg">
         {loading ? 
         <p className='text-black'>Loading...</p>
@@ -62,6 +73,9 @@ const PhotoPopup: React.FC<PhotoPopupProps> = ({ image, onClose }) => {
         </>
         }
       </div>
+        { product &&
+          <ProductCard product={product as Product}/>
+        }
     </div>
   );
 };
